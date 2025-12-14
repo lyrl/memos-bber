@@ -94,5 +94,17 @@
    },
    "invalidToken":{
       "message": "Invalid token or url 😭"
+   },
+   "saveModeEdit":{
+      "message": "Edit Mode"
+   },
+   "saveModeDirect":{
+      "message": "Direct Save"
+   },
+   "memoDirectSuccess":{
+      "message": "Content saved to Memos successfully! 😊"
+   },
+   "memoDirectFailed":{
+      "message": "Save failed, added to editor 😭"
    }
 }

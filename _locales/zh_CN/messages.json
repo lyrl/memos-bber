@@ -94,5 +94,17 @@
    },
    "invalidToken":{
       "message": "无效的 token 或 url 😭"
+   },
+   "saveModeEdit":{
+      "message": "编辑模式"
+   },
+   "saveModeDirect":{
+      "message": "立即保存"
+   },
+   "memoDirectSuccess":{
+      "message": "内容已成功保存到 Memos! 😊"
+   },
+   "memoDirectFailed":{
+      "message": "保存失败，已添加到编辑器中 😭"
    }
 }

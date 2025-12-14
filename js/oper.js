@@ -12,7 +12,8 @@ function get_info(callback) {
       open_action: '',
       open_content: '',
       userid: '',
-      resourceIdList: []
+      resourceIdList: [],
+      save_mode: 'EDIT'
     },
     function (items) {
       var flag = false
@@ -32,6 +33,7 @@ function get_info(callback) {
       returnObject.open_action = items.open_action
       returnObject.userid = items.userid
       returnObject.resourceIdList = items.resourceIdList
+      returnObject.save_mode = items.save_mode
 
       if (callback) callback(returnObject)
     }
@@ -57,6 +59,22 @@ get_info(function (info) {
   } else if (memoNow == "PROTECTED") {
     $("#lock-now").text(chrome.i18n.getMessage("lockProtected"))
   }
+  
+  // 设置保存模式
+  var saveModeNow = info.save_mode
+  if (saveModeNow == '') {
+    chrome.storage.sync.set({ save_mode: 'EDIT' })
+    $("#saveMode-now").text(chrome.i18n.getMessage("saveModeEdit"))
+  }
+  if (saveModeNow == "EDIT") {
+    $("#saveMode-now").text(chrome.i18n.getMessage("saveModeEdit"))
+  } else if (saveModeNow == "DIRECT") {
+    $("#saveMode-now").text(chrome.i18n.getMessage("saveModeDirect"))
+  }
+  
+  // 设置保存模式选项文本
+  $("#saveModeEdit").text(chrome.i18n.getMessage("saveModeEdit"))
+  $("#saveModeDirect").text(chrome.i18n.getMessage("saveModeDirect"))
   $('#apiUrl').val(info.apiUrl)
   $('#apiTokens').val(info.apiTokens)
   $('#hideInput').val(info.hidetag)
@@ -356,6 +374,19 @@ $(document).on("click",".item-lock",function () {
     _this = $(this)[0].dataset.type;
     chrome.storage.sync.set(
       {memo_lock: _this}
+    )
+})
+
+$('#saveMode').click(function () {
+  $("#saveMode-wrapper").toggleClass( "!hidden", 1000 );
+})
+
+$(document).on("click",".item-save-mode",function () {
+  $("#saveMode-wrapper").toggleClass( "!hidden", 1000 );
+  $("#saveMode-now").text($(this).text())
+    _this = $(this)[0].dataset.type;
+    chrome.storage.sync.set(
+      {save_mode: _this}
     )
 })
 

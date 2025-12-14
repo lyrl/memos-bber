@@ -38,6 +38,15 @@
           required
         />
         <span id="saveKey" class="action-btn confirm-btn"></span>
+        <div class="selector-wrapper save-mode-selector">
+          <div id="saveMode" class="current-value-container">
+            <span id="saveMode-now" class="value-text"></span><span class="arrow-text"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-img"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+          </div>
+          <div id="saveMode-wrapper" class="items-wrapper !hidden">
+            <div id="saveModeEdit" class="item-save-mode" data-type="EDIT"></div>
+            <div id="saveModeDirect" class="item-save-mode" data-type="DIRECT"></div>
+          </div>
+        </div>
     </div>
 
     <div class="memo-editor">

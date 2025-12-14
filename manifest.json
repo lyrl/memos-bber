@@ -22,7 +22,8 @@
       "tabs",
       "storage",
       "activeTab",
-      "contextMenus"
+      "contextMenus",
+      "notifications"
    ],
    "host_permissions": ["http://*/*", "https://*/*"],
    "commands": {
