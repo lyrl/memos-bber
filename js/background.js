@@ -93,20 +93,44 @@ function directSaveToMemos(content) {
     .then(data => {
       if (data.name) {
         // 保存成功，显示通知
+        const successMessage = chrome.i18n.getMessage("memoDirectSuccess") || '内容已成功保存到 Memos!';
         chrome.notifications.create({
           type: 'basic',
           iconUrl: 'assets/logo_24x24.png',
           title: 'Memos',
-          message: chrome.i18n.getMessage("memoDirectSuccess") || '内容已成功保存到 Memos!'
+          message: successMessage
+        });
+        
+        // 在页面上也显示通知
+        chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
+          if (tabs[0]) {
+            chrome.tabs.sendMessage(tabs[0].id, {
+              type: 'SHOW_PAGE_NOTIFICATION',
+              text: successMessage,
+              notificationType: 'success'
+            });
+          }
         });
       } else {
         // 保存失败，回退到编辑模式
         chrome.storage.sync.set({open_action: "save_text", open_content: content});
+        const failedMessage = chrome.i18n.getMessage("memoDirectFailed") || '保存失败，已添加到编辑器中';
         chrome.notifications.create({
           type: 'basic',
           iconUrl: 'assets/logo_24x24.png',
           title: 'Memos',
-          message: chrome.i18n.getMessage("memoDirectFailed") || '保存失败，已添加到编辑器中'
+          message: failedMessage
+        });
+        
+        // 在页面上也显示失败通知
+        chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
+          if (tabs[0]) {
+            chrome.tabs.sendMessage(tabs[0].id, {
+              type: 'SHOW_PAGE_NOTIFICATION',
+              text: failedMessage,
+              notificationType: 'error'
+            });
+          }
         });
       }
     })
@@ -114,11 +138,23 @@ function directSaveToMemos(content) {
       console.error('Direct save error:', error);
       // 发生错误，回退到编辑模式
       chrome.storage.sync.set({open_action: "save_text", open_content: content});
+      const errorMessage = chrome.i18n.getMessage("memoDirectFailed") || '保存失败，已添加到编辑器中';
       chrome.notifications.create({
         type: 'basic',
         iconUrl: 'assets/logo_24x24.png',
         title: 'Memos',
-        message: chrome.i18n.getMessage("memoDirectFailed") || '保存失败，已添加到编辑器中'
+        message: errorMessage
+      });
+      
+      // 在页面上也显示错误通知
+      chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
+        if (tabs[0]) {
+          chrome.tabs.sendMessage(tabs[0].id, {
+            type: 'SHOW_PAGE_NOTIFICATION',
+            text: errorMessage,
+            notificationType: 'error'
+          });
+        }
       });
     });
   });
